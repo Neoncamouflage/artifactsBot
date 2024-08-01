@@ -27,7 +27,7 @@ async function gameLoop() {
 
             //Execute current job if we're past the cooldown
             let charCooldown = new Date(char.cooldown_expiration);
-            if(charCooldown - now > 0) continue;
+            if(charCooldown - now > 10) continue;
             //console.log("Current datetime is",now)
             //console.log(char.name,"cooldown datetime is",charCooldown)
             //console.log("Difference is",charCooldown-now)

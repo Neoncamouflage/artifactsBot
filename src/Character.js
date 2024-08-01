@@ -1,13 +1,8 @@
 const gameAPI = require('./gameAPI');
 const {AUTH_TOKEN,SKILLS,INVENTORY_SLOTS,INVENTORY_MAX_ITEMS}  = require('./constants');
-const jobNameRef = {
-    'Amos':'miner',
-    'Philip':'woodcutter'
-}
 
 //Character prototype to handle actions and tracking information
 function Character(data) {
-    this.authorization = AUTH_TOKEN;
     this.skills = {};
     this.task = {};
     this.gear = {};
@@ -19,47 +14,40 @@ function Character(data) {
 
 //Character Actions
 Character.prototype.move = async function (x, y) {
-    const headers = { Authorization: this.authorization };
     const data = { x, y };
     const endpoint = `/my/${encodeURIComponent(this.name)}/action/move`;
     return gameAPI.callAPI(endpoint, 'POST', headers, data);
 };
 
 Character.prototype.fight = async function () {
-    const headers = { Authorization: this.authorization };
     const endpoint = `/my/${encodeURIComponent(this.name)}/action/fight`;
-    return gameAPI.callAPI(endpoint, 'POST', headers, null);
+    return gameAPI.callAPI(endpoint, 'POST', null);
 };
 
 Character.prototype.harvest = async function () {
-    const headers = { Authorization: this.authorization };
     const endpoint = `/my/${encodeURIComponent(this.name)}/action/gathering`;
-    return gameAPI.callAPI(endpoint, 'POST', headers, null);
+    return gameAPI.callAPI(endpoint, 'POST', null);
 };
 
 Character.prototype.craft = async function (code,quantity) {
-    const headers = { Authorization: this.authorization };
     const data = {code,quantity};
     const endpoint = `/my/${encodeURIComponent(this.name)}/action/crafting`;
-    return gameAPI.callAPI(endpoint, 'POST', headers, data);
+    return gameAPI.callAPI(endpoint, 'POST', data);
 };
 Character.prototype.equipItem = async function (code,slot) {
-    const headers = { Authorization: this.authorization };
     const data = {code,slot};
     const endpoint = `/my/${encodeURIComponent(this.name)}/action/equip`;
-    return gameAPI.callAPI(endpoint, 'POST', headers, data);
+    return gameAPI.callAPI(endpoint, 'POST', data);
 };
 Character.prototype.unequipItem = async function (slot) {
-    const headers = { Authorization: this.authorization };
     const data = {slot};
     const endpoint = `/my/${encodeURIComponent(this.name)}/action/unequip`;
-    return gameAPI.callAPI(endpoint, 'POST', headers, data);
+    return gameAPI.callAPI(endpoint, 'POST', data);
 };
 Character.prototype.getTask = async function () {
-    const headers = { Authorization: this.authorization };
     const params = {name:this.name};
     const endpoint = `/my/${encodeURIComponent(this.name)}/action/task/new`;
-    return gameAPI.callAPI(endpoint, 'POST', headers, null,params);
+    return gameAPI.callAPI(endpoint, 'POST', null,params);
 };
 
 //Character Data
@@ -551,6 +539,10 @@ Character.prototype.executeJob = async function(gameObjects,gameMap){
             else{
                 let taskResponse = this.getTask();
                 this.setData(taskResponse.data.character);
+                this.task.target = taskResponse.task.code;
+                this.task.type = taskResponse.task.type;
+                this.task.total = taskResponse.task.total;
+                this.task.progress = 0;
             }
             return;
         }

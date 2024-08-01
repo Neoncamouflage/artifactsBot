@@ -5,22 +5,19 @@ const validTypes = new Set(['characters', 'resources', 'monsters', 'items', 'map
 
 //Game object for interacting with the overall game
 const Game = {
-    authorization: AUTH_TOKEN,
     getAll: async function (type,opts) {
         if (!validTypes.has(type)) {
             console.log(`Invalid type: ${type}!`);
             return {};
         }
-        const headers = { Authorization: this.authorization };
         const params = opts || null;
         const endpoint = `/${type}`;
-        return gameAPI.callAPI(endpoint, 'GET', headers, null, params);
+        return gameAPI.callAPI(endpoint, 'GET', null, params);
     },
     getMyCharacters: async function (opts) {
-        const headers = { Authorization: this.authorization };
         const params = opts || null;
         const endpoint = `/my/characters`;
-        return gameAPI.callAPI(endpoint, 'GET', headers, null, params);
+        return gameAPI.callAPI(endpoint, 'GET', null, params);
     },
 };
 
