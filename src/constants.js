@@ -1,6 +1,7 @@
+const config = require('config')
 module.exports = {
     //API data
-    AUTH_TOKEN:'Bearer '+'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Ik5lb25DYW1vdWZsYWdlIiwicGFzc3dvcmRfY2hhbmdlZCI6IiJ9.sxQ7uik7WGZ8ncCW3mFjYvcTFlCKwvjhYECXFJW3YUc',
+    AUTH_TOKEN:'Bearer '+config.token,
     API_BASE_URL:'https://api.artifactsmmo.com',
 
     //Game data
